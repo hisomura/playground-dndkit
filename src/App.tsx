@@ -1,39 +1,46 @@
-import { DndContext } from '@dnd-kit/core';
-import React, { useCallback, useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import './App.css';
-import { Draggable } from "./Draggable";
-import { Droppable } from "./Droppable";
+import { BasicDnd } from "./components/BasicDnd";
 
 function App() {
-  const containers = ['A', 'B', 'C'];
-  const [parent, setParent] = useState(null);
-  const draggableMarkup = (
-    <Draggable id="draggable">Drag me</Draggable>
-  );
-  const handleDragEnd = useCallback((event) => {
-    const {over} = event;
-
-    // If the item is dropped over a container, set it as the parent
-    // otherwise reset the parent to `null`
-    setParent(over ? over.id : null);
-
-  }, [])
-
   return (
-    <DndContext onDragEnd={handleDragEnd}>
-      <div className="App">
-        {parent === null ? draggableMarkup : null}
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/basic">Basic</Link>
+            </li>
+            <li>
+              <Link to="/sortable">Sortable</Link>
+            </li>
+          </ul>
+        </nav>
 
-        {containers.map((id) => (
-          // We updated the Droppable component so it would accept an `id`
-          // prop and pass it to `useDroppable`
-          <Droppable key={id} id={id}>
-            {parent === id ? draggableMarkup : 'Drop here'}
-          </Droppable>
-        ))}
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+        <Switch>
+          <Route path="/basic">
+            <BasicDnd/>
+          </Route>
+          <Route path="/sortable">
+            <Home/>
+          </Route>
+          <Route path="/">
+            <Home/>
+          </Route>
+        </Switch>
       </div>
-    </DndContext>
+    </Router>
   );
 }
 
 export default App;
+
+function Home() {
+  return (<div>Home</div>)
+}
