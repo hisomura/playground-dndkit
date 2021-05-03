@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import './App.css';
 import { BasicDnd } from "./components/BasicDnd";
+import { Sortable } from "./components/Sortable";
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
             <BasicDnd/>
           </Route>
           <Route path="/sortable">
-            <Home/>
+            <Sortable/>
           </Route>
           <Route path="/">
             <Home/>
